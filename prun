@@ -1,0 +1,13 @@
+#!/usr/bin/env php
+<?php
+foreach (glob(__dir__."/src/*.php") as $filename) 
+{
+	require_once $filename;
+}
+
+if (PHP_SAPI != "cli") {
+    exit;
+}
+
+$Cli = new PrunCli();
+$Cli->run();
