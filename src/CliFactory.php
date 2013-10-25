@@ -9,7 +9,8 @@ abstract class CliFactory
 	protected $spaces8 = "\t\t\t";
 	protected $spaces10 = "\t\t\t\t";
 
-	function __construct() {
+	function __construct() 
+	{
 		$this->argv = $_SERVER['argv'];
 		$this->argc = $_SERVER['argc'];
 	}
@@ -17,7 +18,11 @@ abstract class CliFactory
 	protected function validArgument()
 	{
 		if ($this->argc < 2){
-			foreach (glob(__dir__."/../cli/*.php") as $filename) 
+			$strs = [];
+			$strs[] = "Method Name" . $this->spaces6 . "Descriptions";
+			$strs[] = str_repeat('=', 80);
+			$this->outline($strs);
+			foreach (glob(\Config::get('app.cli_dir')."*.php") as $filename) 
 			{
 				$ClassName = preg_replace('/(.+).php$/i', '$1', basename($filename));
 				(new $ClassName)->info();
@@ -29,9 +34,8 @@ abstract class CliFactory
 	protected function info()
 	{
 		$strs = [];
+		
 		foreach ($this->info as $method => $info) {
-			$strs[] = "Method Name" . $this->spaces6 . "Descriptions";
-			$strs[] = str_repeat('=', 80);
 			$strs[] = get_called_class().":".$method . $this->spaces6 .$info['info'];
 			$strs[] = str_repeat('-', 80);
 		}
